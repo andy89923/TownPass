@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+import 'package:flutter_beacon/flutter_beacon.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,8 +35,56 @@ Future<void> initServices() async {
   await Get.putAsync<AccountService>(() async => await AccountService().init());
   await Get.putAsync<DeviceService>(() async => await DeviceService().init());
   await Get.putAsync<PackageService>(() async => await PackageService().init());
-  await Get.putAsync<SharedPreferencesService>(() async => await SharedPreferencesService().init());
-  await Get.putAsync<GeoLocatorService>(() async => await GeoLocatorService().init());
+  await Get.putAsync<SharedPreferencesService>(
+      () async => await SharedPreferencesService().init());
+  await Get.putAsync<GeoLocatorService>(
+      () async => await GeoLocatorService().init());
+
+  // await Get.putAsync<BeaconService>(() async => await BeaconService().init());
+
+  // try {
+  //   // if you want to manage manual checking about the required permissions
+  // await flutterBeacon.initializeScanning;
+  //   // or if you want to include automatic checking permission
+  // await flutterBeacon.initializeAndCheckScanning;
+  // } on PlatformException catch (e) {
+  //   // library failed to initialize, check code and message
+  // }
+  await initBeaconService();
+}
+
+Future<void> initBeaconService() async {
+  try {
+    await _requestPermissions();
+
+    await flutterBeacon.initializeScanning;
+    await flutterBeacon.initializeAndCheckScanning;
+    startScanning();
+  } on PlatformException catch (e) {
+    print('Beacon initialization failed: ${e.message}');
+  }
+}
+
+Future<void> _requestPermissions() async {
+  await [
+    Permission.bluetooth,
+    Permission.bluetoothScan,
+    Permission.bluetoothConnect,
+    Permission.location,
+  ].request();
+}
+
+void startScanning() {
+  final regions = <Region>[
+    Region(identifier: 'com.example.myRegion'),
+  ];
+
+  flutterBeacon.ranging(regions).listen((RangingResult result) {
+    for (var beacon in result.beacons) {
+      print(
+          'Beacon detected: ${beacon.proximityUUID} - ${beacon.major} - ${beacon.minor} - RSSI: ${beacon.rssi}');
+    }
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -57,7 +108,8 @@ class MyApp extends StatelessWidget {
           actionsIconTheme: IconThemeData(size: 56),
         ),
         actionIconTheme: ActionIconThemeData(
-          backButtonIconBuilder: (_) => Assets.svg.iconLeftArrow.svg(width: 24, height: 24),
+          backButtonIconBuilder: (_) =>
+              Assets.svg.iconLeftArrow.svg(width: 24, height: 24),
         ),
       ),
       debugShowCheckedModeBanner: false,
