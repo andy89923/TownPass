@@ -23,7 +23,8 @@ class PerkView extends StatelessWidget {
       body: TPInAppWebView(
         onWebViewCreated: (controller) {
           controller.loadUrl(
-            urlRequest: URLRequest(url: WebUri('https://taipei-pass-service.vercel.app/coupon/')),
+            urlRequest: URLRequest(
+                url: WebUri('https://taipei-pass-service.vercel.app/coupon/')),
           );
         },
       ),

@@ -40,7 +40,7 @@ extension MyServiceIdExt on MyServiceItemId {
           description: 'Open free5GC',
           icon: Assets.image.free5gc.image(),
           category: MyServiceCategory.cityService,
-          destinationUrl: 'https://free5gc.org',
+          destinationUrl: 'https://townpass-hackathon.web.app/current-site',
         ),
       MyServiceItemId.dedicatedLine => MyServiceItem(
           title: '1999',

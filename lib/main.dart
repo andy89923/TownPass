@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:town_pass/gen/assets.gen.dart';
 import 'package:town_pass/service/account_service.dart';
 import 'package:town_pass/service/device_service.dart';
@@ -40,16 +42,6 @@ Future<void> initServices() async {
   await Get.putAsync<GeoLocatorService>(
       () async => await GeoLocatorService().init());
 
-  // await Get.putAsync<BeaconService>(() async => await BeaconService().init());
-
-  // try {
-  //   // if you want to manage manual checking about the required permissions
-  // await flutterBeacon.initializeScanning;
-  //   // or if you want to include automatic checking permission
-  // await flutterBeacon.initializeAndCheckScanning;
-  // } on PlatformException catch (e) {
-  //   // library failed to initialize, check code and message
-  // }
   await initBeaconService();
 }
 
@@ -59,7 +51,7 @@ Future<void> initBeaconService() async {
 
     await flutterBeacon.initializeScanning;
     await flutterBeacon.initializeAndCheckScanning;
-    startScanning();
+    // startScanning();
   } on PlatformException catch (e) {
     print('Beacon initialization failed: ${e.message}');
   }
@@ -84,6 +76,7 @@ void startScanning() {
       print(
           'Beacon detected: ${beacon.proximityUUID} - ${beacon.major} - ${beacon.minor} - RSSI: ${beacon.rssi}');
     }
+    // sendBeaconDataToWeb(result.beacons);
   });
 }
 
