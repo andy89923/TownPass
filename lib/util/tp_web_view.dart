@@ -88,9 +88,7 @@ class TPWebView extends StatelessWidget {
 
           int holdingMajor = -1;
           int holdingMinor = -1;
-          // Timer.periodic(const Duration(seconds: 5), (timer) {
 
-          // flutterBeacon.
           flutterBeacon.ranging(regions).listen((RangingResult result) {
             String uuid = "";
             int major = -1, minor = -1;
@@ -106,7 +104,6 @@ class TPWebView extends StatelessWidget {
               print(
                   'CTFANG Beacon detected: ${beacon.proximityUUID} - ${beacon.major} - ${beacon.minor} - RSSI: ${beacon.rssi}');
             }
-            print("loop CTFANG $major $minor");
 
             // onBeaconUpdate
             if (major != -1 &&
@@ -129,14 +126,10 @@ class TPWebView extends StatelessWidget {
                   'console.log("New CTFANG onBeaconLeave");window.dispatchEvent(new CustomEvent("onBeaconLeave", {detail :{uuid: "$uuid",major: $holdingMajor,minor: $holdingMinor}}));';
               controller.evaluateJavascript(source: cmd);
 
-              print("ctfang: $cmd");
-
               holdingMinor = -1;
               holdingMajor = -1;
             }
           });
-
-          // });
         },
         onUpdateVisitedHistory: (_, __, ___) async {
           canGoBack.value = await webViewController.value?.canGoBack() ?? false;
