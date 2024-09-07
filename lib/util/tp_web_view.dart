@@ -1,6 +1,4 @@
 import 'dart:collection';
-import 'dart:developer';
-import 'dart:ui';
 import 'dart:async';
 
 import 'package:town_pass/gen/assets.gen.dart';
@@ -102,16 +100,16 @@ class TPWebView extends StatelessWidget {
                 minor = beacon.minor;
               }
               print(
-                  'CTFANG Beacon detected: ${beacon.proximityUUID} - ${beacon.major} - ${beacon.minor} - RSSI: ${beacon.rssi}');
+                  '[CTFANG] Beacon detected: ${beacon.proximityUUID} - ${beacon.major} - ${beacon.minor}, RSSI: ${beacon.rssi}');
             }
 
             // onBeaconUpdate
             if (major != -1 &&
                 (holdingMajor != major || holdingMinor != minor)) {
-              print("CTFANG onBeaconUpdate: $uuid - $major - $minor");
+              print("[CTFANG] onBeaconUpdate: $uuid - $major - $minor");
 
               String cmd =
-                  "console.log('New CTFANG onBeaconUpdate');window.dispatchEvent(new CustomEvent('onBeaconUpdate', {detail :{uuid: '$uuid',major: $major,minor: $minor}}));";
+                  "console.log('[CTFANG] New onBeaconUpdate');window.dispatchEvent(new CustomEvent('onBeaconUpdate', {detail :{uuid: '$uuid',major: $major,minor: $minor}}));";
               controller.evaluateJavascript(source: cmd);
 
               holdingMajor = major;
@@ -120,10 +118,10 @@ class TPWebView extends StatelessWidget {
 
             // onBeaconLeave
             if (holdingMajor != -1 && major == -1) {
-              print("CTFANG onBeaconLeave: $major - $minor");
+              print("[CTFANG] onBeaconLeave: $major - $minor");
 
               String cmd =
-                  'console.log("New CTFANG onBeaconLeave");window.dispatchEvent(new CustomEvent("onBeaconLeave", {detail :{uuid: "$uuid",major: $holdingMajor,minor: $holdingMinor}}));';
+                  'console.log("[CTFANG] New onBeaconLeave");window.dispatchEvent(new CustomEvent("onBeaconLeave", {detail :{uuid: "$uuid",major: $holdingMajor,minor: $holdingMinor}}));';
               controller.evaluateJavascript(source: cmd);
 
               holdingMinor = -1;
