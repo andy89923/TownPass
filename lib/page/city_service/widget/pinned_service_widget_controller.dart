@@ -4,9 +4,10 @@ import 'package:town_pass/page/city_service/model/my_service_model.dart';
 class PinnedServiceWidgetController extends GetxController {
   final RxList<MyServiceItemId> _pinnedList = RxList(
     [
-      MyServiceItemId.locationSearch,
-      MyServiceItemId.districtOffice,
-      MyServiceItemId.dashboard,
+      MyServiceItemId.free5gc,
+      // MyServiceItemId.locationSearch,
+      // MyServiceItemId.districtOffice,
+      // MyServiceItemId.dashboard,
     ],
   );
 
