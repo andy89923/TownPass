@@ -36,10 +36,11 @@ extension MyServiceIdExt on MyServiceItemId {
   MyServiceItem get item {
     return switch (this) {
       MyServiceItemId.free5gc => MyServiceItem(
-          title: 'free5GC',
-          description: 'Open free5GC',
+          title: 'Godages',
+          description: 'Open Godages',
           icon: Assets.image.free5gc.image(),
           category: MyServiceCategory.cityService,
+          // destinationUrl: "http://localhost:3000/current-site"
           destinationUrl: 'https://townpass-hackathon.web.app/current-site',
         ),
       MyServiceItemId.dedicatedLine => MyServiceItem(

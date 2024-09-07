@@ -51,7 +51,6 @@ Future<void> initBeaconService() async {
 
     await flutterBeacon.initializeScanning;
     await flutterBeacon.initializeAndCheckScanning;
-    // startScanning();
   } on PlatformException catch (e) {
     print('Beacon initialization failed: ${e.message}');
   }
@@ -64,20 +63,6 @@ Future<void> _requestPermissions() async {
     Permission.bluetoothConnect,
     Permission.location,
   ].request();
-}
-
-void startScanning() {
-  final regions = <Region>[
-    Region(identifier: 'com.example.myRegion'),
-  ];
-
-  flutterBeacon.ranging(regions).listen((RangingResult result) {
-    for (var beacon in result.beacons) {
-      print(
-          'Beacon detected: ${beacon.proximityUUID} - ${beacon.major} - ${beacon.minor} - RSSI: ${beacon.rssi}');
-    }
-    // sendBeaconDataToWeb(result.beacons);
-  });
 }
 
 class MyApp extends StatelessWidget {
