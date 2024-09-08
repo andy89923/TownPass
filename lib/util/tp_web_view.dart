@@ -77,6 +77,8 @@ class TPWebView extends StatelessWidget {
             controller.loadData(data: _failedToLoadUrlData(url: url));
           }
         },
+        initialSettings: InAppWebViewSettings(
+            cacheEnabled: false, clearCache: true, clearSessionCache: true),
         onLoadStop: (controller, url) async {
           final regions = <Region>[
             Region(
